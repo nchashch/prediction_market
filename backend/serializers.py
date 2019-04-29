@@ -19,9 +19,9 @@ class OutcomeSerializer(serializers.ModelSerializer):
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
-        fields = ('id', 'outcome', 'market', 'portfolio', 'volume', 'closed')
+        fields = ('id', 'outcome', 'market', 'portfolio', 'amount', 'closed')
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'outcome', 'portfolio', 'position', 'volume', 'timestamp')
+        fields = ('id', 'outcome', 'portfolio', 'position', 'type', 'amount', 'timestamp')
