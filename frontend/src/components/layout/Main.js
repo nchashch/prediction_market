@@ -4,7 +4,7 @@ import Markets from '../predictionMarket/Markets';
 class Main extends Component {
   render() {
     return (
-        <main>
+        <main className="container">
         <Markets />
         </main>
     );

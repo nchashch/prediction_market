@@ -18,7 +18,7 @@ export class Markets extends Component {
         <a href='/api/markets'>markets API</a>
         <h1>Market list</h1>
         <ul>
-          <table>
+          <table className="table table-striped">
             <thead>
               <tr>
                 <th>ID</th>
@@ -41,7 +41,7 @@ export class Markets extends Component {
                   <td>{market.start_date}</td>
                   <td>{market.end_date}</td>
                   <td>{market.resolved ? 'true' : 'false'}</td>
-                  <td><button>Delete</button></td>
+                  <td><button className="btn btn-danger btn-sm">Delete</button></td>
                 </tr>
               )) }
             </tbody>
