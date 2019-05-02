@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for prediction market app.",
+  "main": "index.js",
+  "author": "Nikita Chashchinskii <nikita.chashchinskii@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./frontend/src/index.js --output ./frontend/static/frontend/main.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
