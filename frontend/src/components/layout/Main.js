@@ -5,9 +5,9 @@ import MarketForm from '../predictionMarket/MarketForm';
 class Main extends Component {
   render() {
     return (
-        <main className="container">
-        <MarketForm />
-        <Markets />
+        <main>
+          <MarketForm />
+          <Markets />
         </main>
     );
   }

@@ -6,7 +6,7 @@
   "author": "Nikita Chashchinskii <nikita.chashchinskii@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "watch": "webpack --watch --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
+    "watch": "yarn dev && webpack --watch --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
     "dev": "webpack --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
     "build": "webpack --mode production ./frontend/src/index.js --output ./frontend/static/frontend/main.js"
   },
@@ -23,8 +23,11 @@
     "axios": "^0.18.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-alert": "^5.4.0",
+    "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
+    "react-transition-group": "^4.0.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
