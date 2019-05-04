@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getMarkets } from '../../actions/markets'
+import { getMarkets, deleteMarket } from '../../actions/markets';
 
 export class Markets extends Component {
   static propTypes = {
-    markets: PropTypes.array.isRequired
+    markets: PropTypes.array.isRequired,
+    getMarkets: PropTypes.func.isRequired,
+    deleteMarket: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -41,7 +43,7 @@ export class Markets extends Component {
                   <td>{market.start_date}</td>
                   <td>{market.end_date}</td>
                   <td>{market.resolved ? 'true' : 'false'}</td>
-                  <td><button className="btn btn-danger btn-sm">Delete</button></td>
+                  <td><button onClick={this.props.deleteMarket.bind(this, market.id)} className="btn btn-danger btn-sm">Delete</button></td>
                 </tr>
               )) }
             </tbody>
@@ -56,4 +58,4 @@ const mapStateToProps = state => ({
   markets: state.markets.markets
 });
 
-export default connect(mapStateToProps, { getMarkets })(Markets)
+export default connect(mapStateToProps, { getMarkets, deleteMarket })(Markets)
