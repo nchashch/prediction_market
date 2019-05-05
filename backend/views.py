@@ -2,15 +2,28 @@ from backend.models import Market, Portfolio, Outcome, Position, Order
 from backend.serializers import MarketSerializer, PortfolioSerializer
 from backend.serializers import OutcomeSerializer, PositionSerializer, OrderSerializer
 from rest_framework.views import APIView, Response
-from rest_framework import generics
+from rest_framework import generics, permissions
+from functools import reduce
+from django.db.models import QuerySet
 
 class PortfolioList(generics.ListCreateAPIView):
-    queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    def get_queryset(self):
+        return self.request.user.portfolios.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    def get_queryset(self):
+        return self.request.user.portfolios.all()
 
 class MarketList(generics.ListCreateAPIView):
     queryset = Market.objects.all()
@@ -41,17 +54,49 @@ class OutcomeDetail(generics.RetrieveAPIView):
     serializer_class = OutcomeSerializer
 
 class PositionList(generics.ListAPIView):
-    queryset = Position.objects.all()
     serializer_class = PositionSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_queryset(self):
+        portfolios = self.request.user.portfolios.all()
+        positions = [portfolio.positions.all() for portfolio in portfolios]
+        positions = reduce(QuerySet.union, positions)
+        return positions
 
 class PositionDetail(generics.RetrieveAPIView):
-    queryset = Position.objects.all()
     serializer_class = PositionSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_queryset(self):
+        portfolios = self.request.user.portfolios.all()
+        positions = [portfolio.positions.all() for portfolio in portfolios]
+        positions = reduce(QuerySet.union, positions)
+        return positions
 
 class OrderList(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_queryset(self):
+        portfolios = self.request.user.portfolios.all()
+        orders = [portfolio.orders.all() for portfolio in portfolios]
+        orders = reduce(QuerySet.union, orders)
+        return orders
 
 class OrderDetail(generics.RetrieveAPIView):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_queryset(self):
+        portfolios = self.request.user.portfolios.all()
+        orders = [portfolio.orders.all() for portfolio in portfolios]
+        orders = reduce(QuerySet.union, orders)
+        return orders

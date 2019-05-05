@@ -4,7 +4,7 @@ from backend.models import Portfolio, Market, Outcome, Position, Order
 class PortfolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = ('id', 'name', 'user', 'cash')
+        fields = ('id', 'name', 'owner', 'cash')
 
 class MarketSerializer(serializers.ModelSerializer):
     class Meta:

@@ -37,7 +37,7 @@ export class Markets extends Component {
               { this.props.markets.map((market) => (
                 <tr key={market.id}>
                   <td>{market.id}</td>
-                  <td>{market.name}</td>
+                  <td><a href={"/api/outcomes/?market=" + market.id}>{market.name}</a></td>
                   <td>{market.b}</td>
                   <td>{market.number_of_outcomes}</td>
                   <td>{market.start_date}</td>

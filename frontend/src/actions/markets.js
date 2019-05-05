@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GET_MARKETS, DELETE_MARKET, CREATE_MARKET, GET_ERRORS } from './types';
-import { createMessage } from './message';
+import { createMessage, returnError } from './message';
 
 // GET_MARKETS
 export const getMarkets = () => dispatch => {
@@ -12,16 +12,7 @@ export const getMarkets = () => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => {
-      const errors = {
-        msg: err.response.data,
-        status: err.response.status
-      };
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors
-      });
-    });
+    .catch(err => dispatch(returnError(err)));
 };
 
 // DELETE_MARKET
@@ -35,16 +26,7 @@ export const deleteMarket = (id) => dispatch => {
         payload: id
       });
     })
-    .catch(err => {
-      const errors = {
-        msg: err.response.data,
-        status: err.response.status
-      };
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors
-      });
-    });
+    .catch(err => dispatch(returnError(err)));
 };
 
 // CREATE_MARKET
@@ -58,14 +40,5 @@ export const createMarket = (market) => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => {
-      const errors = {
-        msg: err.response.data,
-        status: err.response.status
-      };
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors
-      });
-    });
+    .catch(err => dispatch(returnError(err)));
 };

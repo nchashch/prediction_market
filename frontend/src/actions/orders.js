@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { GET_OUTCOMES } from './types';
+import { GET_ORDERS, GET_ERRORS } from './types';
 import { returnError } from './message';
 
-// GET_OUTCOMES
-export const getOutcomes = (marketId) => dispatch => {
+// GET_ORDERS
+export const getOrders = () => dispatch => {
   axios
-    .get(`/api/outcomes/?market=${marketId}`)
+    .get('/api/orders/')
     .then(res => {
       dispatch({
-        type: GET_OUTCOMES,
+        type: GET_ORDERS,
         payload: res.data
       });
     })

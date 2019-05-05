@@ -7,13 +7,13 @@ import datetime
 # Private
 class Portfolio(models.Model):
     name = models.CharField(max_length=256)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='portfolios', on_delete=models.CASCADE)
     cash = models.FloatField(default=0)
 
 # Public
 class Market(models.Model):
     name = models.CharField(max_length=256)
-    b = models.FloatField(default=0.0)
+    b = models.FloatField(null=False)
     number_of_outcomes = models.IntegerField(null=True)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -61,14 +61,15 @@ class Outcome(models.Model):
 class Position(models.Model):
     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE)
     market = models.ForeignKey(Market, on_delete=models.CASCADE)
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, related_name='positions', on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
 
 # Private
 class Order(models.Model):
     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE)
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    market = models.ForeignKey(Market, related_name='orders', on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, related_name='orders', on_delete=models.CASCADE)
     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True)
     type = models.TextField(choices=[('buy', 'Buy'), ('sell', 'Sell')], null=False)
     amount = models.IntegerField(default=0)
