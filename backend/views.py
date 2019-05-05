@@ -1,6 +1,7 @@
 from backend.models import Market, Portfolio, Outcome, Position, Order
 from backend.serializers import MarketSerializer, PortfolioSerializer
 from backend.serializers import OutcomeSerializer, PositionSerializer, OrderSerializer
+from rest_framework.views import APIView, Response
 from rest_framework import generics
 
 class PortfolioList(generics.ListCreateAPIView):
@@ -19,9 +20,21 @@ class MarketDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Market.objects.all()
     serializer_class = MarketSerializer
 
-class OutcomeList(generics.ListAPIView):
-    queryset = Outcome.objects.all()
-    serializer_class = OutcomeSerializer
+class OutcomeList(APIView):
+    def get(self, request):
+        """
+        This view should return a list of all the outcomes,
+        if there is no 'market' keyword argument and
+        all outcomes for a particular market if there is a 'market
+        keyword argument.
+        """
+        market = request.GET.get('market', None)
+        if market:
+            outcomes = Outcome.objects.filter(market__id=market)
+        else:
+            outcomes = Outcome.objects.all()
+        serializer = OutcomeSerializer(outcomes, many=True)
+        return Response(serializer.data)
 
 class OutcomeDetail(generics.RetrieveAPIView):
     queryset = Outcome.objects.all()
