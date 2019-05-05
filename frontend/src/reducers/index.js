@@ -6,6 +6,7 @@ import orders from './orders';
 import portfolios from './portfolios';
 import errors from './errors';
 import message from './message';
+import auth from './auth';
 
 export default combineReducers({
   markets,
@@ -13,6 +14,7 @@ export default combineReducers({
   positions,
   orders,
   portfolios,
+  auth,
   errors,
   message
 });

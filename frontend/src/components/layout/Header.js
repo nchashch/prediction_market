@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
 class Header extends Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired
+  };
+
   render() {
+    const { user, isAuthenticated } = this.props.auth;
+    const authLinks = (
+      <ul>
+        <li><button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">Logout</button></li>
+      </ul>
+    );
+    const guestLinks = (
+        <ul>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/register">Register</Link></li>
+        </ul>
+    );
     return (
       <header className="container">
-        <h1>Prediction market</h1>
-        <ul>
-          <li><Link to="/">home</Link></li>
-          <li><Link to="/login">login</Link></li>
-          <li><Link to="/register">register</Link></li>
-        </ul>
+        <h1><Link to="/">Prediction market</Link></h1>
+        {isAuthenticated ? authLinks : guestLinks}
       </header>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Header);

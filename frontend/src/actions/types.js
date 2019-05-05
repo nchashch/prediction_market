@@ -13,3 +13,16 @@ export const GET_PORTFOLIOS = 'GET_PORTFOLIOS';
 export const GET_ERRORS = 'GET_ERRORS';
 export const GET_MESSAGE = 'GET_MESSAGE';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const REGISTER = 'REGISTER';
+
+export const USER_LOADING = 'USER_LOADING';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
