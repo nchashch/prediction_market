@@ -1,5 +1,10 @@
+import { Redirect } from 'react-router';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { register } from '../../actions/auth';
+import { createMessage } from '../../actions/message';
+import PropTypes from 'prop-types';
 
 export class Register extends Component {
   state = {
@@ -9,15 +14,28 @@ export class Register extends Component {
     password2: ''
   }
 
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    register: PropTypes.func.isRequired
+  }
+
   onSubmit = e => {
     e.preventDefault();
-    console.log('submit');
+    const { password, password2 } = this.state;
+    if(password !== password2) {
+      this.props.createMessage({ passwordsDoNotMatch: "Passwords don't match." });
+    } else {
+      this.props.register(this.state);
+    }
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     const { username, email, password, password2 } = this.state;
+    if(this.props.isAuthenticated) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
@@ -62,13 +80,13 @@ export class Register extends Component {
                 onChange={this.onChange}
                 value={password2}
               />
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary">Register</button>
-              </div>
-              <p>
-                Already have an account? <Link to="/login">login</Link>
-              </p>
             </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">Register</button>
+            </div>
+            <p>
+              Already have an account? <Link to="/login">login</Link>
+            </p>
           </form>
         </div>
       </div>
@@ -76,4 +94,8 @@ export class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { register, createMessage })(Register);

@@ -4,22 +4,16 @@ import { USER_LOADING,
          AUTH_ERROR,
          LOGIN_SUCCESS,
          LOGIN_FAIL,
-         LOGOUT_SUCCESS
+         LOGOUT_SUCCESS,
+         REGISTER_SUCCESS,
+         REGISTER_FAIL
        } from './types';
 import { returnError } from './message';
 
 // Check token and load user
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
-  const token = getState().auth.token;
-  const config = {
-    'headers': {
-      'Content-Type': 'application/json'
-    }
-  };
-  if(token) {
-    config.headers['Authorization'] = `Token ${token}`;
-  }
+  const config = tokenConfig(getState);
   axios
     .get('/api/auth/user/', config)
     .then(res => {
@@ -61,6 +55,44 @@ export const login = (username, password) => dispatch => {
 
 // Logout user
 export const logout = () => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  axios
+    .post('/api/auth/logout/', null, config)
+    .then(res => {
+      dispatch({ type: LOGOUT_SUCCESS });
+    })
+    .catch(err => {
+      dispatch(returnError(err));
+    });
+};
+
+// Register user
+export const register = ({ username, password, email }) => dispatch => {
+  // Headers
+  const config = {
+    'headers': {
+      'Content-Type': 'application/json'
+    }
+  };
+  // Body
+  const body = JSON.stringify({ username, email, password });
+
+  axios
+    .post('/api/auth/register/', body, config)
+    .then(res => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({ type: REGISTER_FAIL });
+      dispatch(returnError(err));
+    });
+};
+
+// Setup config with token - helper function
+export const tokenConfig = getState => {
   const token = getState().auth.token;
   const config = {
     'headers': {
@@ -70,12 +102,5 @@ export const logout = () => (dispatch, getState) => {
   if(token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-  axios
-    .post('/api/auth/logout/', null, config)
-    .then(res => {
-      dispatch({ type: LOGOUT_SUCCESS });
-    })
-    .catch(err => {
-      dispatch(returnError(err));
-    });
+  return config;
 };
