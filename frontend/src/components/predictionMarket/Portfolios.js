@@ -31,7 +31,7 @@ export class Portfolios extends Component {
               { this.props.portfolios.map((portfolio) => (
                 <tr key={portfolio.id}>
                   <td>{portfolio.id}</td>
-                  <td>{portfolio.anme}</td>
+                  <td>{portfolio.name}</td>
                   <td>{portfolio.owner}</td>
                   <td>{portfolio.cash}</td>
                 </tr>

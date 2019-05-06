@@ -30,7 +30,6 @@ class App extends Component {
           <Router>
             <Fragment>
               <Header />
-              <Alerts />
               <div className="container">
                 <Switch>
                   <Route exact path="/" component={Main} />
