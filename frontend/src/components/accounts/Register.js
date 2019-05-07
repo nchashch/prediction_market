@@ -16,16 +16,19 @@ export class Register extends Component {
 
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired
   }
 
   onSubmit = e => {
     e.preventDefault();
-    const { password, password2 } = this.state;
-    if(password !== password2) {
-      this.props.createMessage({ passwordsDoNotMatch: "Passwords don't match." });
-    } else {
-      this.props.register(this.state);
+    if (!this.props.isAuthenticated && !this.props.isLoading) {
+      const { password, password2 } = this.state;
+      if(password !== password2) {
+        this.props.createMessage({ passwordsDoNotMatch: "Passwords don't match." });
+      } else {
+        this.props.register(this.state);
+      }
     }
   }
 
@@ -95,7 +98,8 @@ export class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps, { register, createMessage })(Register);
