@@ -10,7 +10,6 @@ class Main extends Component {
   render() {
     return (
         <main>
-          <MarketForm />
           <Markets />
         </main>
     );

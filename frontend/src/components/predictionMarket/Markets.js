@@ -18,7 +18,6 @@ export class Markets extends Component {
   render() {
     return (
       <Fragment>
-        <a href='/api/markets'>markets API</a>
         <h1>Market list</h1>
         <ul>
           <table className="table table-striped">
@@ -38,7 +37,7 @@ export class Markets extends Component {
               { this.props.markets.map((market) => (
                 <tr key={market.id}>
                   <td>{market.id}</td>
-                  <td><Link to={'/market/' + market.id}>{market.name}</Link></td>
+                  <td><Link to={'/markets/' + market.id}>{market.name}</Link></td>
                   <td>{market.b}</td>
                   <td>{market.number_of_outcomes}</td>
                   <td>{market.start_date}</td>

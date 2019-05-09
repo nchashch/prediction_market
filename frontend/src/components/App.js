@@ -6,6 +6,10 @@ import { Provider } from 'react-redux';
 import Header from './layout/Header';
 import Main from './layout/Main';
 import Market from './predictionMarket/Market';
+import Markets from './predictionMarket/Markets';
+import Portfolios from './predictionMarket/Portfolios';
+import Positions from './predictionMarket/Positions';
+import Orders from './predictionMarket/Orders';
 import store from '../store';
 import Alerts from './layout/Alerts';
 import Login from './accounts/Login';
@@ -36,7 +40,11 @@ class App extends Component {
                   <Route exact path="/" component={Main} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
-                  <Route path="/market/:marketId" component={Market} />
+                  <Route path="/markets/:marketId" component={Market} />
+                  <Route path="/markets/" component={Markets} />
+                  <Route path="/portfolios/" component={Portfolios} />
+                  <Route path="/positions/" component={Positions} />
+                  <Route path="/orders/" component={Orders} />
                 </Switch>
               </div>
             </Fragment>
