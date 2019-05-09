@@ -7,7 +7,7 @@ export class Outcomes extends Component {
   static propTypes = {
     outcomes: PropTypes.array.isRequired,
     getOutcomes: PropTypes.func.isRequired,
-    marketId: PropTypes.number.isRequired
+    marketId: PropTypes.string.isRequired
   }
 
   componentDidMount() {

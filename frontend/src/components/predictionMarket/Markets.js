@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMarkets, deleteMarket } from '../../actions/markets';
@@ -37,7 +38,7 @@ export class Markets extends Component {
               { this.props.markets.map((market) => (
                 <tr key={market.id}>
                   <td>{market.id}</td>
-                  <td><a href={"/api/outcomes/?market=" + market.id}>{market.name}</a></td>
+                  <td><Link to={'/market/' + market.id}>{market.name}</Link></td>
                   <td>{market.b}</td>
                   <td>{market.number_of_outcomes}</td>
                   <td>{market.start_date}</td>

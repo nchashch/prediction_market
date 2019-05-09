@@ -12,10 +12,6 @@ class Main extends Component {
         <main>
           <MarketForm />
           <Markets />
-          <Outcomes marketId={9} />
-          <Positions />
-          <Orders />
-          <Portfolios />
         </main>
     );
   }
