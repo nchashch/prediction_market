@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getOutcomes } from '../../actions/outcomes';
+import { OrderForm } from './OrderForm';
 
 export class Outcomes extends Component {
   static propTypes = {
@@ -28,6 +29,8 @@ export class Outcomes extends Component {
                 <th>Outstanding</th>
                 <th>Probability</th>
                 <th>Winning</th>
+                <th>Amount</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +42,7 @@ export class Outcomes extends Component {
                   <td>{outcome.outstanding}</td>
                   <td>{Math.round(outcome.probability*1000)/10 + '%'}</td>
                   <td>{outcome.winning ? 'true' : 'false'}</td>
+                  <td><OrderForm outcomeId={outcome.id}/></td>
                 </tr>
               )) }
             </tbody>

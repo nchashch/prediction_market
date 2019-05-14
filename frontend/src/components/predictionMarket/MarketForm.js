@@ -22,7 +22,7 @@ export class MarketForm extends Component {
       { name,
         b,
         start_date,
-        end_date }
+        end_date };
     this.props.createMarket(market);
   }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ORDERS, GET_ERRORS } from './types';
+import { GET_ORDERS, CREATE_ORDER, GET_ERRORS } from './types';
 import { returnError } from './message';
 import { tokenConfig } from './auth';
 
@@ -15,4 +15,13 @@ export const getOrders = () => (dispatch, getState) => {
       });
     })
     .catch(err => dispatch(returnError(err)));
+};
+
+// CREATE_ORDER
+export const createOrder = (order) => dispatch => {
+  console.log(order);
+  dispatch({
+    type: CREATE_ORDER,
+    payload: order
+  });
 };

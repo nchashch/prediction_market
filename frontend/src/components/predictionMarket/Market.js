@@ -4,7 +4,7 @@ import { getMarkets } from '../../actions/markets';
 import PropTypes from 'prop-types';
 import Outcomes from '../predictionMarket/Outcomes';
 
-class Main extends Component {
+class Market extends Component {
   static propTypes = {
     marketId: PropTypes.string.isRequired,
     markets: PropTypes.array.isRequired,
@@ -29,4 +29,4 @@ const mapStateToProps = (state, ownProps) => ({
   marketId: ownProps.match.params.marketId
 });
 
-export default connect(mapStateToProps, { getMarkets })(Main);
+export default connect(mapStateToProps, { getMarkets })(Market);
