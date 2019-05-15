@@ -2,15 +2,18 @@ import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getMarkets, deleteMarket } from '../../actions/markets';
+import MarketForm from './MarketForm';
 
 function Markets() {
   const markets = useSelector(state => state.markets.markets);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMarkets());
-  });
+  }, []);
   return (
     <Fragment>
+      <h1>Create a new market</h1>
+      <MarketForm />
       <h1>Market list</h1>
       <ul>
         <table className="table table-striped">
