@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GET_ORDERS, CREATE_ORDER, GET_ERRORS } from './types';
 import { returnError } from './message';
 import { tokenConfig } from './auth';
+import { getOutcomes } from './outcomes';
 
 // GET_ORDERS
 export const getOrders = () => (dispatch, getState) => {
@@ -18,10 +19,16 @@ export const getOrders = () => (dispatch, getState) => {
 };
 
 // CREATE_ORDER
-export const createOrder = (order) => dispatch => {
-  console.log(order);
-  dispatch({
-    type: CREATE_ORDER,
-    payload: order
-  });
+export const createOrder = (order, marketId) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  axios
+    .post('/api/orders/', order, config)
+    .then(res => {
+      dispatch({
+        type: CREATE_ORDER,
+        payload: res.data
+      });
+      dispatch(getOutcomes(marketId));
+    })
+    .catch(err => dispatch(returnError(err)));
 };

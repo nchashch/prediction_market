@@ -76,6 +76,7 @@ class Order(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
+        self.market = self.outcome.market
         if self.type == 'buy':
             super(Order, self).save(*args, **kwargs)
             self._buy_save()

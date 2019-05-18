@@ -1,68 +1,58 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createOrder } from '../../actions/orders';
 
-export class OrderForm extends Component {
-  state = {
+function OrderForm(props) {
+  const dispatch = useDispatch();
+  const [order, setOrder] = useState({
     outcome: '',
-    portfolio: '',
+    portfolio: '2',
+    position: '',
     type: '',
     amount: '',
-  }
+  });
+  useEffect(() => setOrder({ ...order, outcome: props.outcomeId }), [props.outcomeId]);
 
-  static propTypes = {
-    /* createOrder: PropTypes.func.isRequired,*/
-    outcomeId: PropTypes.number.isRequired
-  }
-
-  componentDidMount() {
-    /* this.state.outcome = this.props.outcomeId;*/
-    this.setState({ ...this.state, outcome: this.props.outcomeId })
-  }
-
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    const order = this.state;
-    /* console.log(order);*/
-    /* this.props.createOrder(order);*/
+    dispatch(createOrder(order, props.marketId));
   }
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
-
-  buy = e => {
-    console.log('buy');
+  const onChange = e => setOrder({ ...order, [e.target.name]: e.target.value });
+  const buy = e => {
     const type = 'buy';
-    this.setState({...this.state, type});
+    setOrder({...order, type});
   }
 
-  sell = e => {
-    console.log('sell');
+  const sell = e => {
     const type = 'sell';
-    this.setState({...this.state, type});
+    setOrder({...order, type});
   }
 
-  render() {
-    const { outcome, portfolio, amount } = this.state;
-    return (
-      <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <input
-              type="number"
-              name="amount"
-              onChange={this.onChange}
-              value={amount}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <button type="submit" onClick={this.buy} className="btn btn-primary form-control">Buy</button>
-          </div>
-          <div className="form-group">
-            <button type="submit" onClick={this.sell} className="btn btn-primary form-control">Sell</button>
-          </div>
-      </form>
-    );
-  }
+  const { outcome, portfolio, amount } = order;
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="form-group">
+        <input
+          type="number"
+          name="amount"
+          onChange={onChange}
+          value={amount}
+          className="form-control"
+        />
+      </div>
+      <div className="form-group">
+        <button type="submit" onClick={buy} className="btn btn-primary form-control">Buy</button>
+      </div>
+      <div className="form-group">
+        <button type="submit" onClick={sell} className="btn btn-primary form-control">Sell</button>
+      </div>
+    </form>
+  );
 }
 
-export default connect(null, { createOrder })(OrderForm);
+OrderForm.propTypes = {
+  outcomeId: PropTypes.number.isRequired
+}
+
+export default OrderForm;

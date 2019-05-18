@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getOutcomes } from '../../actions/outcomes';
-import { OrderForm } from './OrderForm';
+import OrderForm from './OrderForm';
 
 function Outcomes(props) {
   const outcomes = useSelector(state => state.outcomes.outcomes);
@@ -37,7 +37,7 @@ function Outcomes(props) {
                 <td>{outcome.outstanding}</td>
                 <td>{Math.round(outcome.probability*1000)/10 + '%'}</td>
                 <td>{outcome.winning ? 'true' : 'false'}</td>
-                <td><OrderForm outcomeId={outcome.id}/></td>
+                <td><OrderForm outcomeId={outcome.id} marketId={outcome.market}/></td>
               </tr>
             )) }
           </tbody>
