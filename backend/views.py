@@ -2,7 +2,7 @@ from backend.models import Market, Portfolio, Outcome, Position, Order
 from backend.serializers import MarketSerializer, PortfolioSerializer
 from backend.serializers import OutcomeSerializer, PositionSerializer, OrderSerializer
 from rest_framework.views import APIView, Response
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from functools import reduce
 from django.db.models import QuerySet
 
@@ -82,6 +82,27 @@ class OrderList(generics.ListCreateAPIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
+
+    def post(self, request):
+        portfolios = Portfolio.objects.filter(owner=request.user)
+        if request.data.get('portfolio'):
+            serializer = OrderSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if portfolios:
+            data = { **request.data, 'portfolio': portfolios[0].id }
+            print(data)
+            serializer = OrderSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_queryset(self):
         portfolios = self.request.user.portfolios.all()

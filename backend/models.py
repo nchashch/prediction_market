@@ -78,16 +78,17 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         self.market = self.outcome.market
         if self.type == 'buy':
-            super(Order, self).save(*args, **kwargs)
             self._buy_save()
-        elif self.type == 'sell':
             super(Order, self).save(*args, **kwargs)
+        elif self.type == 'sell':
             self._sell_save()
+            super(Order, self).save(*args, **kwargs)
 
     def _buy_save(self):
         outcomes = Outcome.objects.filter(market=self.outcome.market)
         try:
             position = Position.objects.get(outcome=self.outcome.id, portfolio=self.portfolio.id)
+            self.position = position
         except ObjectDoesNotExist:
             position = Position(
                 outcome = self.outcome,
@@ -96,7 +97,8 @@ class Order(models.Model):
                 amount = 0,
                 closed = False,
             )
-            position.save()
+            self.position = position
+            self.position.save()
         finally:
             self.position = position
         delta = self.amount

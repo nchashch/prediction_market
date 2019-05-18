@@ -24,4 +24,5 @@ class PositionSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'outcome', 'portfolio', 'position', 'type', 'amount', 'timestamp')
+        fields = ('id', 'outcome', 'market', 'portfolio', 'position', 'type', 'amount', 'timestamp')
+        read_only_fields = ('market', 'position', 'timestamp')

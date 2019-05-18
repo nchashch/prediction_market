@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createOrder } from '../../actions/orders';
+import { getPortfolios } from '../../actions/portfolios';
 
 function OrderForm(props) {
   const dispatch = useDispatch();
+  const portfolios = useSelector(state => state.portfolios.portfolios);
   const [order, setOrder] = useState({
-    outcome: '',
-    portfolio: '2',
-    position: '',
+    outcome: props.outcomeId,
     type: '',
     amount: '',
   });
-  useEffect(() => setOrder({ ...order, outcome: props.outcomeId }), [props.outcomeId]);
-
   const onSubmit = e => {
     e.preventDefault();
     dispatch(createOrder(order, props.marketId));
