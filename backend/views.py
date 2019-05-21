@@ -73,13 +73,6 @@ class OrderList(generics.ListCreateAPIView):
 
     def post(self, request):
         portfolio = request.user.portfolio
-        if request.data.get('portfolio'):
-            serializer = OrderSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         if portfolio:
             data = { **request.data, 'portfolio': portfolio.id }
             serializer = OrderSerializer(data=data)
