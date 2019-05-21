@@ -4,7 +4,6 @@ import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import { Provider } from 'react-redux';
 import Header from './layout/Header';
-import Main from './layout/Main';
 import Market from './predictionMarket/Market';
 import Markets from './predictionMarket/Markets';
 import Positions from './predictionMarket/Positions';
@@ -36,7 +35,7 @@ class App extends Component {
               <Header />
               <div className="container">
                 <Switch>
-                  <Route exact path="/" component={Main} />
+                  <Route exact path="/" component={Markets} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
                   <Route path="/markets/:marketId" component={Market} />
