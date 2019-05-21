@@ -1,15 +1,15 @@
-import { GET_PORTFOLIOS } from '../actions/types';
+import { GET_PORTFOLIO } from '../actions/types';
 
 const initialState = {
-  portfolios: []
+  portfolio: null
 };
 
 export default function(state = initialState, action) {
   switch(action.type) {
-  case GET_PORTFOLIOS:
+  case GET_PORTFOLIO:
     return {
       ...state,
-      portfolios: action.payload
+      portfolio: action.payload
     };
   default:
     return state;

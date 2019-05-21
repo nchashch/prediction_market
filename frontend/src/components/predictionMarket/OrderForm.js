@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createOrder } from '../../actions/orders';
-import { getPortfolios } from '../../actions/portfolios';
+import { getPortfolio } from '../../actions/portfolio';
 
 function OrderForm(props) {
   const dispatch = useDispatch();
-  const portfolios = useSelector(state => state.portfolios.portfolios);
   const [order, setOrder] = useState({
     outcome: props.outcomeId,
     type: '',

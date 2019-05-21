@@ -7,7 +7,7 @@ import datetime
 # Private
 class Portfolio(models.Model):
     name = models.CharField(max_length=256)
-    owner = models.ForeignKey(User, related_name='portfolios', on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, related_name='portfolio', on_delete=models.CASCADE)
     cash = models.FloatField(default=0)
 
 # Public

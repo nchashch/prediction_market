@@ -7,7 +7,6 @@ import Header from './layout/Header';
 import Main from './layout/Main';
 import Market from './predictionMarket/Market';
 import Markets from './predictionMarket/Markets';
-import Portfolios from './predictionMarket/Portfolios';
 import Positions from './predictionMarket/Positions';
 import Orders from './predictionMarket/Orders';
 import store from '../store';
@@ -42,7 +41,6 @@ class App extends Component {
                   <Route exact path="/login" component={Login} />
                   <Route path="/markets/:marketId" component={Market} />
                   <Route path="/markets/" component={Markets} />
-                  <Route path="/portfolios/" component={Portfolios} />
                   <Route path="/positions/" component={Positions} />
                   <Route path="/orders/" component={Orders} />
                 </Switch>

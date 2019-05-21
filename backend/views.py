@@ -6,24 +6,16 @@ from rest_framework import generics, permissions, status
 from functools import reduce
 from django.db.models import QuerySet
 
-class PortfolioList(generics.ListCreateAPIView):
+class PortfolioDetail(generics.GenericAPIView):
     serializer_class = PortfolioSerializer
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    def get_queryset(self):
-        return self.request.user.portfolios.all()
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = PortfolioSerializer
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
-    def get_queryset(self):
-        return self.request.user.portfolios.all()
+    def get(self, request):
+        portfolio = request.user.portfolio
+        serializer = PortfolioSerializer(portfolio)
+        return Response(serializer.data)
 
 class MarketList(generics.ListCreateAPIView):
     queryset = Market.objects.all()
@@ -60,9 +52,7 @@ class PositionList(generics.ListAPIView):
     ]
 
     def get_queryset(self):
-        portfolios = self.request.user.portfolios.all()
-        positions = [portfolio.positions.all() for portfolio in portfolios]
-        positions = reduce(QuerySet.union, positions)
+        positions = self.request.user.portfolio.positions.all()
         return positions
 
 class PositionDetail(generics.RetrieveAPIView):
@@ -72,9 +62,7 @@ class PositionDetail(generics.RetrieveAPIView):
     ]
 
     def get_queryset(self):
-        portfolios = self.request.user.portfolios.all()
-        positions = [portfolio.positions.all() for portfolio in portfolios]
-        positions = reduce(QuerySet.union, positions)
+        positions = self.request.user.portfolio.positions.all()
         return positions
 
 class OrderList(generics.ListCreateAPIView):
@@ -84,7 +72,7 @@ class OrderList(generics.ListCreateAPIView):
     ]
 
     def post(self, request):
-        portfolios = Portfolio.objects.filter(owner=request.user)
+        portfolio = request.user.portfolio
         if request.data.get('portfolio'):
             serializer = OrderSerializer(data=request.data)
             if serializer.is_valid():
@@ -92,9 +80,8 @@ class OrderList(generics.ListCreateAPIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        if portfolios:
-            data = { **request.data, 'portfolio': portfolios[0].id }
-            print(data)
+        if portfolio:
+            data = { **request.data, 'portfolio': portfolio.id }
             serializer = OrderSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
@@ -105,9 +92,7 @@ class OrderList(generics.ListCreateAPIView):
             return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_queryset(self):
-        portfolios = self.request.user.portfolios.all()
-        orders = [portfolio.orders.all() for portfolio in portfolios]
-        orders = reduce(QuerySet.union, orders)
+        orders = self.request.user.portfolio.orders.all()
         return orders
 
 class OrderDetail(generics.RetrieveAPIView):
@@ -117,7 +102,5 @@ class OrderDetail(generics.RetrieveAPIView):
     ]
 
     def get_queryset(self):
-        portfolios = self.request.user.portfolios.all()
-        orders = [portfolio.orders.all() for portfolio in portfolios]
-        orders = reduce(QuerySet.union, orders)
+        orders = self.request.user.portfolio.orders.all()
         return orders

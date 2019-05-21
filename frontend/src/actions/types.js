@@ -9,7 +9,7 @@ export const GET_POSITIONS = 'GET_POSITIONS';
 export const GET_ORDERS = 'GET_ORDERS';
 export const CREATE_ORDER = 'CREATE_ORDER';
 
-export const GET_PORTFOLIOS = 'GET_PORTFOLIOS';
+export const GET_PORTFOLIO = 'GET_PORTFOLIO';
 
 export const GET_ERRORS = 'GET_ERRORS';
 export const GET_MESSAGE = 'GET_MESSAGE';

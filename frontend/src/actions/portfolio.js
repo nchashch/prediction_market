@@ -1,16 +1,16 @@
 import axios from 'axios';
-import { GET_PORTFOLIOS, GET_ERRORS } from './types';
+import { GET_PORTFOLIO, GET_ERRORS } from './types';
 import { returnError } from './message';
 import { tokenConfig } from './auth';
 
-// GET_PORTFOLIOS
-export const getPortfolios = () => (dispatch, getState) => {
+// GET_PORTFOLIO
+export const getPortfolio = () => (dispatch, getState) => {
   const config = tokenConfig(getState);
   axios
-    .get('/api/portfolios/', config)
+    .get('/api/portfolio/', config)
     .then(res => {
       dispatch({
-        type: GET_PORTFOLIOS,
+        type: GET_PORTFOLIO,
         payload: res.data
       });
     })

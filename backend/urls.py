@@ -3,8 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from backend import views
 
 urlpatterns = [
-    path('portfolios/', views.PortfolioList.as_view()),
-    path('portfolios/<int:pk>/', views.PortfolioDetail.as_view()),
+    path('portfolio/', views.PortfolioDetail.as_view()),
 
     path('markets/', views.MarketList.as_view()),
     path('markets/<int:pk>/', views.MarketDetail.as_view()),

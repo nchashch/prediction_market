@@ -3,6 +3,7 @@ import { GET_ORDERS, CREATE_ORDER, GET_ERRORS } from './types';
 import { returnError } from './message';
 import { tokenConfig } from './auth';
 import { getOutcomes } from './outcomes';
+import { getPortfolio } from './portfolio';
 
 // GET_ORDERS
 export const getOrders = () => (dispatch, getState) => {
@@ -29,6 +30,7 @@ export const createOrder = (order, marketId) => (dispatch, getState) => {
         payload: res.data
       });
       dispatch(getOutcomes(marketId));
+      dispatch(getPortfolio());
     })
     .catch(err => dispatch(returnError(err)));
 };
