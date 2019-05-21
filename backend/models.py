@@ -1,5 +1,5 @@
 import math
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
@@ -19,6 +19,7 @@ class Market(models.Model):
     end_date = models.DateField()
     resolved = models.BooleanField(default=False)
 
+    @transaction.atomic
     def save(self, *args, **kwargs):
         Outcome.objects.all()
         base = self.start_date
@@ -75,6 +76,7 @@ class Order(models.Model):
     amount = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    @transaction.atomic
     def save(self, *args, **kwargs):
         self.market = self.outcome.market
         if self.type == 'buy':
