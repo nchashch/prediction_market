@@ -37,7 +37,7 @@ class Market(models.Model):
 
 # Public
 class Outcome(models.Model):
-    market = models.ForeignKey(Market, on_delete=models.CASCADE)
+    market = models.ForeignKey(Market, related_name='outcomes', on_delete=models.CASCADE)
     outcome_date = models.DateField()
     outstanding = models.IntegerField()
     probability = models.FloatField()
