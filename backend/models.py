@@ -13,8 +13,8 @@ class Portfolio(models.Model):
 # Public
 class Market(models.Model):
     name = models.CharField(max_length=256)
-    b = models.FloatField(null=False)
-    number_of_outcomes = models.IntegerField(null=True)
+    b = models.FloatField()
+    number_of_outcomes = models.IntegerField(blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     resolved = models.BooleanField(default=False)
@@ -62,7 +62,7 @@ class Outcome(models.Model):
 class Position(models.Model):
     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE)
     market = models.ForeignKey(Market, on_delete=models.CASCADE)
-    portfolio = models.ForeignKey(Portfolio, related_name='positions', on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, related_name='positions', on_delete=models.CASCADE, blank=True)
     amount = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
 
@@ -71,8 +71,8 @@ class Order(models.Model):
     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE)
     market = models.ForeignKey(Market, related_name='orders', on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, related_name='orders', on_delete=models.CASCADE)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True)
-    type = models.TextField(choices=[('buy', 'Buy'), ('sell', 'Sell')], null=False)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True)
+    type = models.TextField(choices=[('buy', 'Buy'), ('sell', 'Sell')])
     amount = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
 
