@@ -9,6 +9,7 @@ import { USER_LOADING,
          REGISTER_FAIL
        } from './types';
 import { returnError } from './message';
+import { getPortfolio } from './portfolio';
 
 // Check token and load user
 export const loadUser = () => (dispatch, getState) => {
@@ -21,6 +22,7 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data
       });
+      dispatch(getPortfolio());
     })
     .catch(err => {
       dispatch({ type: AUTH_ERROR });
@@ -47,6 +49,7 @@ export const login = (username, password) => dispatch => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+      dispatch(getPortfolio());
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAIL });
@@ -86,6 +89,7 @@ export const register = ({ username, password, email }) => dispatch => {
         type: REGISTER_SUCCESS,
         payload: res.data
       });
+      dispatch(getPortfolio());
     })
     .catch(err => {
       dispatch({ type: REGISTER_FAIL });

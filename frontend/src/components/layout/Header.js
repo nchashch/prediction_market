@@ -1,31 +1,38 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
-import { getPortfolio } from '../../actions/portfolio';
 
 function Header(props) {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const portfolio = useSelector(state => state.portfolio.portfolio);
-  useEffect(() => {
-    dispatch(getPortfolio());
-  });
-
   const onLogout = () => dispatch(logout());
 
   const { user, isAuthenticated } = auth;
   const authLinks = (
     <Fragment>
-      <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li className="nav-item">
-          <Link className="nav-link" to="/positions">Positions</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/orders">Orders</Link>
-        </li>
-      </ul>
+      <li className="nav-item">
+        <Link className="nav-link" to="/positions">Positions</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/orders">Orders</Link>
+      </li>
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li className="nav-item">
+        <Link className="nav-link" to="/login">Login</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/register">Register</Link>
+      </li>
+    </ul>
+  );
+  const greeting = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <span className="navbar-text mr-3">
           <strong>
@@ -40,19 +47,7 @@ function Header(props) {
         <li className="nav-item">
           <button onClick={onLogout} className="nav-link btn btn-info btn-sm text-light">Logout</button>
         </li>
-      </ul>
-    </Fragment>
-  );
-  const guestLinks = (
-    <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-      <li className="nav-item">
-        <Link className="nav-link" to="/login">Login</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/register">Register</Link>
-      </li>
-    </ul>
-  );
+      </ul>);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">Prediction market</Link>
@@ -64,8 +59,9 @@ function Header(props) {
           <li className="nav-item">
             <Link className="nav-link" to="/markets">Markets</Link>
           </li>
+          {isAuthenticated ? authLinks : guestLinks}
         </ul>
-        {isAuthenticated ? authLinks : guestLinks}
+        {isAuthenticated ? greeting : ''}
       </div>
     </nav>
   );
